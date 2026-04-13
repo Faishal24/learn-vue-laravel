@@ -3,6 +3,7 @@ import Footer from '@/components/chat/Footer.vue';
 import Header from '@/components/chat/Header.vue';
 import List from '@/components/chat/List.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInitials } from '@/composables/useInitials';
 import { contacts } from '@/constants/contact';
 import { chat } from '@/routes';
 import { Head } from '@inertiajs/vue3';
@@ -10,6 +11,8 @@ import { computed, ref } from 'vue';
 
 const selectedContact = ref<Contact | null>(null);
 const message = ref<string>('');
+
+const { getInitials } = useInitials();
 
 const contactsWithMessages = computed(() => {
   return contacts.filter(
@@ -61,7 +64,7 @@ defineOptions({
         >
           <Avatar class="size-10 shrink-0">
             <AvatarImage :src="contact.avatar" :alt="contact.name" />
-            <AvatarFallback>{{ contact.initials }}</AvatarFallback>
+            <AvatarFallback>{{ getInitials(contact.name) }}</AvatarFallback>
           </Avatar>
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between">

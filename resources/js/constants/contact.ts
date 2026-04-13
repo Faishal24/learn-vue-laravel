@@ -3,7 +3,6 @@ export const contacts: Contact[] = [
     id: 1,
     name: 'Alice Johnson',
     avatar: '',
-    initials: 'AJ',
     messages: [
       {
         id: 1,
@@ -24,7 +23,6 @@ export const contacts: Contact[] = [
     id: 2,
     name: 'Bob Smith',
     avatar: '',
-    initials: 'BS',
     messages: [
       {
         id: 1,
@@ -39,7 +37,6 @@ export const contacts: Contact[] = [
     id: 3,
     name: 'Charlie Brown',
     avatar: '',
-    initials: 'CB',
     messages: [
       { id: 1, text: 'Deploy udah jalan?', time: '14:00', direction: 'sent' },
       {
@@ -55,7 +52,6 @@ export const contacts: Contact[] = [
     id: 4,
     name: 'Diana Ross',
     avatar: '',
-    initials: 'DR',
     messages: [
       {
         id: 1,
@@ -69,7 +65,6 @@ export const contacts: Contact[] = [
     id: 5,
     name: 'Edward Chen',
     avatar: '',
-    initials: 'EC',
     messages: [
       { id: 1, text: 'PR sudah aku push', time: '11:00', direction: 'sent' },
       {
