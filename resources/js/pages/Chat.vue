@@ -2,6 +2,7 @@
 import Footer from '@/components/chat/Footer.vue';
 import Header from '@/components/chat/Header.vue';
 import List from '@/components/chat/List.vue';
+import NotificationPopover from '@/components/notification/NotificationPopover.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/composables/useInitials';
 import { contacts } from '@/constants/contact';
@@ -52,8 +53,9 @@ defineOptions({
   <div class="flex h-full">
     <!-- Contact Section -->
     <div class="flex w-80 flex-col border-r border-sidebar-border/70">
-      <div class="border-b border-sidebar-border/70 p-4">
+      <div class="flex items-center justify-between border-b border-sidebar-border/70 p-4">
         <h1 class="text-xl font-bold">Chat</h1>
+        <NotificationPopover />
       </div>
       <div class="flex-1 overflow-y-auto">
         <div
