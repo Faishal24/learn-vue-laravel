@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { X } from 'lucide-vue-next';
+import { Contact, X } from 'lucide-vue-next';
 import Button from '../ui/button/Button.vue';
+import ContactEditDialog from './ContactEditDialog.vue';
 
 defineProps<{
   selectedContact: Contact;
@@ -11,11 +12,14 @@ const emit = defineEmits<{ close: [] }>();
 
 <template>
   <div
-    class="flex items-center justify-between border-b border-sidebar-border/70 p-4"
+    class="group flex items-center justify-between border-b border-sidebar-border/70 p-4"
   >
-    <h2 class="text-lg font-semibold">
-      {{ selectedContact.name }}
-    </h2>
+    <div class="flex items-center gap-x-3">
+      <h2 class="text-lg font-semibold">
+        {{ selectedContact.name }}
+      </h2>
+      <ContactEditDialog :contact="selectedContact" />
+    </div>
 
     <Button
       title="Close chat"
