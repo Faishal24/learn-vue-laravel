@@ -7,8 +7,7 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex-1 overflow-y-auto p-4">
-        <!-- Pesan chat akan ditampilkan di sini -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-1">
          <Bubble v-for="message in selectedContact.messages" :key="message.id" :message="message" />
     </div>
 </template>
