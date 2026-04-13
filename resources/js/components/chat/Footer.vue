@@ -7,20 +7,23 @@ const emit = defineEmits<{ send: [message: string] }>();
 </script>
 
 <template>
-    <form @submit.prevent="emit('send', message)" class="flex items-center gap-3 border-t border-sidebar-border/70 p-4">
-        <input
-            type="text"
-            placeholder="Ketik pesan..."
-            class="w-full rounded-md border px-3 py-2 focus:ring focus:outline-none"
-            v-model="message"
-        />
-        <Button
-            class="aspect-square h-full"
-            variant="outline"
-            type="submit"
-            :disabled="!message.trim()"
-        >
-            <Send />
-        </Button>
-    </form>
+  <form
+    @submit.prevent="emit('send', message)"
+    class="flex items-center gap-3 border-t border-sidebar-border/70 p-4"
+  >
+    <input
+      type="text"
+      placeholder="Ketik pesan..."
+      class="w-full rounded-md border px-3 py-2 focus:ring focus:outline-none"
+      v-model="message"
+    />
+    <Button
+      class="aspect-square h-full"
+      variant="outline"
+      type="submit"
+      :disabled="!message.trim()"
+    >
+      <Send />
+    </Button>
+  </form>
 </template>

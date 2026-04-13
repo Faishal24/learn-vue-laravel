@@ -2,12 +2,16 @@
 import Bubble from './Bubble.vue';
 
 defineProps<{
-    selectedContact: Contact;
+  selectedContact: Contact;
 }>();
 </script>
 
 <template>
-    <div class="flex-1 overflow-y-auto p-4 space-y-1">
-         <Bubble v-for="message in selectedContact.messages" :key="message.id" :message="message" />
-    </div>
+  <div class="flex-1 space-y-1 overflow-y-auto p-4">
+    <Bubble
+      v-for="message in selectedContact.messages"
+      :key="message.id"
+      :message="message"
+    />
+  </div>
 </template>
