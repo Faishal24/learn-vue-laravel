@@ -8,7 +8,8 @@ import { useInitials } from '@/composables/useInitials';
 import { contacts } from '@/constants/contact';
 import { chat } from '@/routes';
 import { Head } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { selectedContactKey } from '@/types/keys';
+import { computed, provide, ref } from 'vue';
 
 const selectedContact = ref<Contact | null>(null);
 const message = ref<string>('');
@@ -45,6 +46,8 @@ defineOptions({
     ],
   },
 });
+
+provide(selectedContactKey, selectedContact);
 </script>
 
 <template>
@@ -98,7 +101,7 @@ defineOptions({
           :selected-contact="selectedContact"
           @close="selectedContact = null"
         />
-        <List :selected-contact="selectedContact" />
+        <List />
         <Footer v-model="message" @send="handleSend" />
       </div>
     </div>
