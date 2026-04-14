@@ -4,37 +4,22 @@ import Header from '@/components/chat/Header.vue';
 import List from '@/components/chat/List.vue';
 import NotificationPopover from '@/components/notification/NotificationPopover.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useChat } from '@/composables/useChat';
 import { useInitials } from '@/composables/useInitials';
 import { contacts } from '@/constants/contact';
 import { chat } from '@/routes';
-import { Head } from '@inertiajs/vue3';
 import { selectedContactKey } from '@/types/keys';
-import { computed, provide, ref } from 'vue';
-
-const selectedContact = ref<Contact | null>(null);
-const message = ref<string>('');
+import { Head } from '@inertiajs/vue3';
+import { computed, provide } from 'vue';
 
 const { getInitials } = useInitials();
+const { selectedContact, message, handleSend } = useChat();
 
 const contactsWithMessages = computed(() => {
   return contacts.filter(
     (contact) => contact.messages && contact.messages.length > 0,
   );
 });
-
-const handleSend = (): void => {
-  if (!message.value.trim()) return;
-  selectedContact.value?.messages?.push({
-    id: Date.now(),
-    text: message.value,
-    time: new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-    direction: 'sent',
-  });
-  message.value = '';
-};
 
 defineOptions({
   layout: {
@@ -56,7 +41,9 @@ provide(selectedContactKey, selectedContact);
   <div class="flex h-full">
     <!-- Contact Section -->
     <div class="flex w-80 flex-col border-r border-sidebar-border/70">
-      <div class="flex items-center justify-between border-b border-sidebar-border/70 p-4">
+      <div
+        class="flex items-center justify-between border-b border-sidebar-border/70 p-4"
+      >
         <h1 class="text-xl font-bold">Chat</h1>
         <NotificationPopover />
       </div>
@@ -65,6 +52,7 @@ provide(selectedContactKey, selectedContact);
           v-for="contact in contactsWithMessages"
           :key="contact.id"
           class="flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors hover:bg-accent"
+          :class="contact.id === selectedContact?.id && 'bg-accent/80'"
           @click="selectedContact = contact"
         >
           <Avatar class="size-10 shrink-0">
