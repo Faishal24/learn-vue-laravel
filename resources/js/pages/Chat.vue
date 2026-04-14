@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import Footer from '@/components/chat/Footer.vue';
 import Header from '@/components/chat/Header.vue';
-import List from '@/components/chat/List.vue';
-import Media from '@/components/chat/Media.vue';
+import Footer from '@/components/chat/Footer.vue';
 import NotificationPopover from '@/components/notification/NotificationPopover.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useChat } from '@/composables/useChat';
@@ -10,13 +8,20 @@ import { useInitials } from '@/composables/useInitials';
 import { chat } from '@/routes';
 import { selectedContactMessagesKey } from '@/types/keys';
 import { Head } from '@inertiajs/vue3';
-import { provide, ref } from 'vue';
+import { computed, defineAsyncComponent, provide, ref } from 'vue';
 
 const { getInitials } = useInitials();
 const { contactsWithMessages, selectedContact, messages, message, handleSend } =
   useChat();
 
 const activeTab = ref<'chat' | 'media'>('chat');
+
+const ChatList = defineAsyncComponent(() => import('@/components/chat/List.vue'));
+const ChatMedia = defineAsyncComponent(() => import('@/components/chat/Media.vue'));
+
+const activeTabComponent = computed(() => {
+  return activeTab.value === 'chat' ? ChatList : ChatMedia;
+});
 
 defineOptions({
   layout: {
@@ -89,14 +94,26 @@ provide(selectedContactMessagesKey, messages);
             @close="selectedContact = null"
             v-model="activeTab"
           />
-          <Transition name="fade" mode="out-in">
-            <KeepAlive>
-              <component
-                :is="activeTab === 'chat' ? List : Media"
-                :contact-id="selectedContact.id"
-              />
-            </KeepAlive>
-          </Transition>
+          <Suspense>
+            <template #default>
+              <Transition name="fade" mode="out-in">
+                <KeepAlive>
+                  <component
+                    :is="activeTabComponent"
+                    :contact-id="selectedContact.id"
+                  />
+                </KeepAlive>
+              </Transition>
+            </template>
+
+            <template #fallback>
+              <div
+                class="flex flex-1 items-center justify-center text-sm text-muted-foreground"
+              >
+                Loading conversation...
+              </div>
+            </template>
+          </Suspense>
           <Footer
             v-if="activeTab === 'chat'"
             v-model="message"
