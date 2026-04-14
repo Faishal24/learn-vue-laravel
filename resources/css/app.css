@@ -163,7 +163,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-muted-foreground/30 overflow-y-auto [&::-webkit-scrollbar-thumb]:rounded;
   }
   body {
     @apply bg-background text-foreground;

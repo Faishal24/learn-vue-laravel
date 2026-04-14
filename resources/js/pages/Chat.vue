@@ -2,6 +2,7 @@
 import Footer from '@/components/chat/Footer.vue';
 import Header from '@/components/chat/Header.vue';
 import List from '@/components/chat/List.vue';
+import Media from '@/components/chat/Media.vue';
 import NotificationPopover from '@/components/notification/NotificationPopover.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useChat } from '@/composables/useChat';
@@ -9,11 +10,13 @@ import { useInitials } from '@/composables/useInitials';
 import { chat } from '@/routes';
 import { selectedContactMessagesKey } from '@/types/keys';
 import { Head } from '@inertiajs/vue3';
-import { provide } from 'vue';
+import { provide, ref } from 'vue';
 
 const { getInitials } = useInitials();
 const { contactsWithMessages, selectedContact, messages, message, handleSend } =
   useChat();
+
+const activeTab = ref<'chat' | 'media'>('chat');
 
 defineOptions({
   layout: {
@@ -82,9 +85,15 @@ provide(selectedContactMessagesKey, messages);
         <Header
           :selected-contact="selectedContact"
           @close="selectedContact = null"
+          v-model="activeTab"
         />
-        <List :contact-id="selectedContact.id" />
-        <Footer v-model="message" @send="handleSend" />
+        <KeepAlive>
+          <component
+            :is="activeTab === 'chat' ? List : Media"
+            :contact-id="selectedContact.id"
+          />
+        </KeepAlive>
+        <Footer v-if="activeTab === 'chat'" v-model="message" @send="handleSend" />
       </div>
     </div>
   </div>
