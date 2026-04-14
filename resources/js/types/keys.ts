@@ -1,3 +1,3 @@
 import type { InjectionKey, Ref } from 'vue';
 
-export const selectedContactKey: InjectionKey<Ref<Contact | null>> = Symbol('selectedContact');
+export const selectedContactMessagesKey: InjectionKey<Ref<Message[] | null>> = Symbol('messages');

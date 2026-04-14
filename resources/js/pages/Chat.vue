@@ -6,20 +6,14 @@ import NotificationPopover from '@/components/notification/NotificationPopover.v
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useChat } from '@/composables/useChat';
 import { useInitials } from '@/composables/useInitials';
-import { contacts } from '@/constants/contact';
 import { chat } from '@/routes';
-import { selectedContactKey } from '@/types/keys';
+import { selectedContactMessagesKey } from '@/types/keys';
 import { Head } from '@inertiajs/vue3';
-import { computed, provide } from 'vue';
+import { provide } from 'vue';
 
 const { getInitials } = useInitials();
-const { selectedContact, message, handleSend } = useChat();
-
-const contactsWithMessages = computed(() => {
-  return contacts.filter(
-    (contact) => contact.messages && contact.messages.length > 0,
-  );
-});
+const { contactsWithMessages, selectedContact, messages, message, handleSend } =
+  useChat();
 
 defineOptions({
   layout: {
@@ -32,7 +26,7 @@ defineOptions({
   },
 });
 
-provide(selectedContactKey, selectedContact);
+provide(selectedContactMessagesKey, messages);
 </script>
 
 <template>
@@ -65,11 +59,11 @@ provide(selectedContactKey, selectedContact);
                 contact.name
               }}</span>
               <span class="shrink-0 text-xs text-muted-foreground">{{
-                contact.messages?.at(-1)?.time
+                contact.latest_message?.time
               }}</span>
             </div>
             <p class="truncate text-sm text-muted-foreground">
-              {{ contact.messages?.at(-1)?.text }}
+              {{ contact.latest_message?.text }}
             </p>
           </div>
         </div>
@@ -89,7 +83,7 @@ provide(selectedContactKey, selectedContact);
           :selected-contact="selectedContact"
           @close="selectedContact = null"
         />
-        <List />
+        <List :contact-id="selectedContact.id" />
         <Footer v-model="message" @send="handleSend" />
       </div>
     </div>

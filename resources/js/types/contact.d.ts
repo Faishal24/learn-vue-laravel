@@ -2,5 +2,5 @@ type Contact = {
   id: number;
   name: string;
   avatar: string;
-  messages?: Message[];
+  latest_message?: Message;
 };

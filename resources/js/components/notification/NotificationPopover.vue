@@ -9,7 +9,7 @@ import { AlertTriangle, Bell } from 'lucide-vue-next';
 <template>
   <Popover>
     <PopoverTrigger as-child>
-      <Button variant="ghost" size="icon" class="relative size-8">
+      <Button variant="ghost" size="icon" class="relative size-7">
         <Bell class="size-4" />
         <span
           v-if="notifications.some((n) => !n.read)"
