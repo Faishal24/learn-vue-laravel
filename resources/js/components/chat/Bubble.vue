@@ -17,7 +17,7 @@ defineProps<{
           : 'rounded-tl-sm bg-muted'
       "
     >
-      <p class="text-sm">{{ message.text }}</p>
+      <p class="text-sm break-words">{{ message.text }}</p>
       <span
         class="mt-1 block text-[10px] opacity-60"
         :class="message.direction === 'sent' ? 'text-right' : 'text-left'"

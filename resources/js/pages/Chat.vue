@@ -74,27 +74,36 @@ provide(selectedContactMessagesKey, messages);
     </div>
 
     <!-- Chat Section -->
-    <div class="flex flex-1">
-      <div
-        v-if="!selectedContact"
-        class="flex flex-1 items-center justify-center text-muted-foreground"
-      >
-        Pilih kontak untuk mulai chat
-      </div>
-      <div v-else class="flex flex-1 flex-col">
-        <Header
-          :selected-contact="selectedContact"
-          @close="selectedContact = null"
-          v-model="activeTab"
-        />
-        <KeepAlive>
-          <component
-            :is="activeTab === 'chat' ? List : Media"
-            :contact-id="selectedContact.id"
+    <div class="relative flex flex-1">
+      <Transition name="fade" mode="out-in">
+        <div
+          v-if="!selectedContact"
+          key="empty"
+          class="flex flex-1 items-center justify-center text-muted-foreground"
+        >
+          Pilih kontak untuk mulai chat
+        </div>
+        <div v-else key="chat" class="flex flex-1 flex-col">
+          <Header
+            :selected-contact="selectedContact"
+            @close="selectedContact = null"
+            v-model="activeTab"
           />
-        </KeepAlive>
-        <Footer v-if="activeTab === 'chat'" v-model="message" @send="handleSend" />
-      </div>
+          <Transition name="fade" mode="out-in">
+            <KeepAlive>
+              <component
+                :is="activeTab === 'chat' ? List : Media"
+                :contact-id="selectedContact.id"
+              />
+            </KeepAlive>
+          </Transition>
+          <Footer
+            v-if="activeTab === 'chat'"
+            v-model="message"
+            @send="handleSend"
+          />
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
